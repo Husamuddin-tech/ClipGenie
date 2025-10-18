@@ -67,28 +67,33 @@ export default function FileUpload({
   };
 
   return (
-    <div className="space-y-2">
-      <IKUpload
-        fileName={fileType === "video" ? "video" : "image"}
-        onError={onError}
-        onSuccess={handleSuccess}
-        onUploadStart={handleStartUpload}
-        onUploadProgress={handleProgress}
-        accept={fileType === "video" ? "video/*" : "image/*"}
-        className="file-input file-input-bordered w-full"
-        validateFile={validateFile}
-        useUniqueFileName={true}
-        folder={fileType === "video" ? "/videos" : "/images"}
-      />
+    <div className="space-y-3 p-4 rounded-2xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 shadow-[0_0_15px_rgba(150,150,255,0.15)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_0_25px_rgba(150,150,255,0.25)]">
+  <IKUpload
+    fileName={fileType === "video" ? "video" : "image"}
+    onError={onError}
+    onSuccess={handleSuccess}
+    onUploadStart={handleStartUpload}
+    onUploadProgress={handleProgress}
+    accept={fileType === "video" ? "video/*" : "image/*"}
+    className="file-input file-input-bordered w-full border-2 border-transparent bg-white/70 rounded-xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all duration-200 hover:bg-white/90 hover:shadow-[0_0_8px_rgba(255,182,193,0.4)]"
+    validateFile={validateFile}
+    useUniqueFileName={true}
+    folder={fileType === "video" ? "/videos" : "/images"}
+  />
 
-      {uploading && (
-        <div className="flex items-center gap-2 text-sm text-primary">
-          <LoaderCircle className="w-4 h-4 animate-spin" />
-          <span>📤 Uploading...</span>
-        </div>
-      )}
-
-      {error && <div className="text-error text-sm">{error}</div>}
+  {uploading && (
+    <div className="flex items-center gap-2 text-sm text-pink-600 font-medium">
+      <LoaderCircle className="w-4 h-4 animate-spin text-pink-500" />
+      <span>📤 Uploading...</span>
     </div>
+  )}
+
+  {error && (
+    <div className="text-red-500 bg-red-50 border border-red-100 px-3 py-1.5 rounded-lg text-sm shadow-[0_0_10px_rgba(255,100,100,0.1)]">
+      {error}
+    </div>
+  )}
+</div>
+
   );
 }

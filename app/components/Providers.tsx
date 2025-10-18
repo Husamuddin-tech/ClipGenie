@@ -2,7 +2,7 @@
 
 import { SessionProvider } from 'next-auth/react';
 import { ImageKitProvider } from 'imagekitio-next';
-// import { NotificationProvider } from "./Notification";
+import { NotificationProvider } from './Notification';
 
 const urlEndpoint = process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!;
 const publicKey = process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!;
@@ -23,15 +23,20 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <SessionProvider refetchInterval={5 * 60}>
-      {/* <NotificationProvider> */}
-      <ImageKitProvider
-        publicKey={publicKey}
-        urlEndpoint={urlEndpoint}
-        authenticator={authenticator}
-      >
-        {children}
-      </ImageKitProvider>
-      {/* </NotificationProvider> */}
+      <NotificationProvider>
+        <ImageKitProvider
+          publicKey={publicKey}
+          urlEndpoint={urlEndpoint}
+          authenticator={authenticator}
+        >
+          <div
+            className="min-h-screen bg-gradient-to-b from-pink-50 via-purple-50 to-blue-50 
+                      backdrop-blur-sm p-4 transition-all duration-300"
+          >
+            {children}
+          </div>
+        </ImageKitProvider>
+      </NotificationProvider>
     </SessionProvider>
   );
 }
