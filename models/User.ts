@@ -4,7 +4,8 @@ import bcrypt from 'bcryptjs';
 export interface IUser {
   email: string;
   password: string;
-  _id?: mongoose.Types.ObjectId;
+  _id: string; // force it to always exist as a string for frontend
+  // _id?: mongoose.Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
 }

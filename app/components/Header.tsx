@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { UserRound } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
   const { data: session } = useSession();
+  const [showConfirmLogout, setShowConfirmLogout] = useState(false);
 
   const handleSignOut = async () => {
     try {
@@ -14,6 +16,17 @@ export default function Header() {
       console.error('Sign out error', error);
     }
   };
+
+  // Auto-dismiss confirmation after 5 seconds
+  useEffect(() => {
+    if (showConfirmLogout) {
+      const timer = setTimeout(() => {
+        setShowConfirmLogout(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showConfirmLogout]);
 
   return (
     <header className="bg-gradient-to-r from-purple-50 via-pink-50 to-blue-50 shadow-[0_4px_15px_rgba(150,150,255,0.15)] sticky top-0 z-50 backdrop-blur-sm">
@@ -63,7 +76,7 @@ export default function Header() {
                   </li>
                   <li>
                     <button
-                      onClick={handleSignOut}
+                      onClick={() => setShowConfirmLogout(true)}
                       className="w-full text-left px-3 py-2 rounded-lg text-red-600 hover:bg-red-100 transition-all duration-200"
                     >
                       Logout
@@ -90,6 +103,34 @@ export default function Header() {
           )}
         </div>
       </div>
+
+      {/* Logout Confirmation Notification */}
+      {showConfirmLogout && (
+        <div
+          className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] sm:w-80 bg-gradient-to-r from-red-200 via-red-100 to-red-200
+                        border border-red-300 text-red-900 rounded-2xl shadow-lg p-4 flex justify-between items-center z-50
+                        animate-slide-down fade-in transition-all duration-300"
+        >
+          <span className="font-medium">Are you sure you want to logout?</span>
+          <div className="flex gap-2">
+            <button
+              onClick={async () => {
+                setShowConfirmLogout(false);
+                await handleSignOut();
+              }}
+              className="px-4 py-2 bg-red-500 text-white rounded-xl shadow hover:bg-red-600 hover:scale-105 transition-transform duration-200"
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => setShowConfirmLogout(false)}
+              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-xl shadow hover:bg-gray-400 hover:scale-105 transition-transform duration-200"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

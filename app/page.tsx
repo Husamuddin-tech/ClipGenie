@@ -8,18 +8,31 @@ import { apiClient } from '@/lib/api-client';
 export default function Home() {
   const [videos, setVideos] = useState<IVideo[]>([]);
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const data = await apiClient.getVideos();
-        setVideos(data);
-      } catch (error) {
-        console.error('Error fetching videos:', error);
-      }
-    };
+  // Fetch all videos
+  const fetchVideos = async () => {
+    try {
+      const data = await apiClient.getVideos();
+      setVideos(data);
+    } catch (error) {
+      console.error('Error fetching videos:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchVideos();
   }, []);
+
+  // 🗑️ Update state when a video is deleted
+  const handleVideoDeleted = (id: string) => {
+    setVideos((prev) => prev.filter((video) => video._id?.toString() !== id));
+  };
+
+  // ✏️ Update state when a video is edited
+  const handleVideoEdited = (updatedVideo: IVideo) => {
+    setVideos((prev) =>
+      prev.map((video) => (video._id === updatedVideo._id ? updatedVideo : video))
+    );
+  };
 
   return (
     <main
@@ -32,7 +45,11 @@ export default function Home() {
         </h1>
 
         <div className="rounded-2xl p-4 bg-white/80 shadow-[0_0_20px_rgba(150,150,255,0.15)] transition-all duration-300">
-          <VideoFeed videos={videos} />
+          <VideoFeed
+            videos={videos}
+            onVideoDeleted={handleVideoDeleted}
+            onVideoEdited={handleVideoEdited}
+          />
         </div>
       </div>
     </main>

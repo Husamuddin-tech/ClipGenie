@@ -1,4 +1,5 @@
 import mongoose, { Schema, model, models } from 'mongoose';
+import { IUser } from './User';
 
 export const VIDEO_DIMENSIONS = {
   width: 1080,
@@ -19,6 +20,7 @@ export interface IVideo {
   };
   createdAt?: Date;
   updatedAt?: Date;
+  owner?: IUser | mongoose.Types.ObjectId; //just added
 }
 
 const videoSchema = new Schema<IVideo>(
@@ -57,6 +59,11 @@ const videoSchema = new Schema<IVideo>(
         min: 1,
         max: 100,
       },
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'User', // ✅ this creates a relationship
+      required: false,
     },
   },
   { timestamps: true }

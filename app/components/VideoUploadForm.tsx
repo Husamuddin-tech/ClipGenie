@@ -81,7 +81,7 @@ export default function VideoUploadForm() {
         <label className="mb-1 font-medium text-purple-700">Title</label>
         <input
           type="text"
-          className={`px-4 py-2 rounded-xl border-2 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all duration-200 
+          className={`px-4 py-2 rounded-xl border-2 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all duration-200 text-pink-400
                   ${
                     errors.title
                       ? 'border-red-300 bg-red-50'
@@ -100,7 +100,7 @@ export default function VideoUploadForm() {
       <div className="flex flex-col">
         <label className="mb-1 font-medium text-purple-700">Description</label>
         <textarea
-          className={`px-4 py-2 rounded-xl h-24 border-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all duration-200 
+          className={`px-4 py-2 rounded-xl h-24 border-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all duration-200 text-pink-400
                   ${
                     errors.description
                       ? 'border-red-300 bg-red-50'
