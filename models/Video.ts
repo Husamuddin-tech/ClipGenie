@@ -21,6 +21,7 @@ export interface IVideo {
   createdAt?: Date;
   updatedAt?: Date;
   owner?: IUser | mongoose.Types.ObjectId; //just added
+  tags?: string[];
 }
 
 const videoSchema = new Schema<IVideo>(
@@ -44,6 +45,7 @@ const videoSchema = new Schema<IVideo>(
     controls: {
       type: Boolean,
       required: true,
+      default: true,
     },
     transformation: {
       height: {
@@ -65,6 +67,7 @@ const videoSchema = new Schema<IVideo>(
       ref: 'User', // ✅ this creates a relationship
       required: false,
     },
+    tags: { type: [String], default: [] },
   },
   { timestamps: true }
 );

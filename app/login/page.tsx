@@ -30,17 +30,17 @@ export default function Login() {
 
   return (
     <div
-      className="max-w-md mx-auto rounded-2xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50
-                shadow-[0_0_20px_rgba(150,150,255,0.15)] p-8 transition-all duration-300"
+      className="max-w-md mx-auto rounded-3xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50
+             shadow-[0_0_25px_rgba(150,150,255,0.15)] p-8 sm:p-10 transition-all duration-300 hover:shadow-[0_0_35px_rgba(150,150,255,0.25)]"
     >
       <h1 className="text-2xl sm:text-3xl font-extrabold text-purple-700 mb-6 text-center">
         Login
       </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email */}
         <div className="flex flex-col">
-          <label htmlFor="email" className="mb-1 font-medium text-purple-700">
+          <label htmlFor="email" className="mb-2 font-medium text-purple-700">
             Email
           </label>
           <input
@@ -49,7 +49,11 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-2 rounded-xl border-2 border-transparent bg-white/70 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-200 text-pink-400"
+            className="w-full px-5 py-3 rounded-2xl border-2 border-transparent bg-white/70
+                   focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent
+                   transition-all duration-300 text-pink-500 placeholder:text-pink-300
+                   hover:bg-white/90 hover:shadow-[0_0_8px_rgba(255,182,193,0.3)]"
+            placeholder="you@example.com"
           />
         </div>
 
@@ -57,7 +61,7 @@ export default function Login() {
         <div className="flex flex-col">
           <label
             htmlFor="password"
-            className="mb-1 font-medium text-purple-700"
+            className="mb-2 font-medium text-purple-700"
           >
             Password
           </label>
@@ -67,24 +71,30 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-4 py-2 rounded-xl border-2 border-transparent bg-white/70 focus:outline-none focus:ring-2 focus:ring-purple-300 transition-all duration-200 text-pink-400"
+            className="w-full px-5 py-3 rounded-2xl border-2 border-transparent bg-white/70
+                   focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent
+                   transition-all duration-300 text-pink-500 placeholder:text-pink-300
+                   hover:bg-white/90 hover:shadow-[0_0_8px_rgba(255,182,193,0.3)]"
+            placeholder="********"
           />
         </div>
 
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full px-4 py-2 rounded-xl bg-pink-400 text-white font-semibold shadow-[0_0_10px_rgba(255,182,193,0.4)] hover:shadow-[0_0_20px_rgba(255,182,193,0.6)] hover:bg-pink-500 transition-all duration-200"
+          className="w-full px-4 py-3 rounded-2xl bg-pink-400 text-white font-semibold
+                 shadow-[0_0_12px_rgba(255,182,193,0.4)] hover:shadow-[0_0_24px_rgba(255,182,193,0.6)]
+                 hover:bg-pink-500 transition-all duration-300 transform hover:-translate-y-0.5"
         >
           Login
         </button>
 
         {/* Register Link */}
-        <p className="text-center mt-4 text-purple-700">
+        <p className="text-center mt-4 text-purple-700 text-sm sm:text-base">
           Don&apos;t have an account?{' '}
           <Link
             href="/register"
-            className="text-pink-500 hover:text-pink-600 font-medium"
+            className="text-pink-500 hover:text-pink-600 font-medium transition-colors duration-200"
           >
             Register
           </Link>

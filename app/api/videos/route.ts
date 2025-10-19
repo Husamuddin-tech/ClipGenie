@@ -35,13 +35,21 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return NextResponse.json({ error: '🚫 Unauthorized 🔒' }, { status: 401 });
+      return NextResponse.json(
+        { error: '🚫 Unauthorized 🔒' },
+        { status: 401 }
+      );
     }
 
     await connectToDatabase();
     const body: IVideo = await request.json();
 
-    if (!body.title || !body.description || !body.videoUrl || !body.thumbnailUrl) {
+    if (
+      !body.title ||
+      !body.description ||
+      !body.videoUrl ||
+      !body.thumbnailUrl
+    ) {
       return NextResponse.json(
         { error: '⚠️ Missing required fields 📝' },
         { status: 400 }
@@ -65,6 +73,7 @@ export async function POST(request: NextRequest) {
         quality: body.transformation?.quality ?? 100,
       },
       owner: owner._id,
+      tags: body.tags ?? [],
     };
 
     const newVideo = await Video.create(videoData);
@@ -83,12 +92,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-
-
-
-
-
 
 // import { authOptions } from '@/lib/auth';
 // import { connectToDatabase } from '@/lib/db';
@@ -153,9 +156,8 @@ export async function POST(request: NextRequest) {
 //         width: 1080,
 //         quality: body.transformation?.quality ?? 100,
 //       },
-      
-//     };
 
+//     };
 
 //     const newVideo = await Video.create(videoData);
 //     return NextResponse.json(newVideo, { status: 201 });
