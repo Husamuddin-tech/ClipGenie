@@ -1,102 +1,68 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+/* -------------------- Keyframes & Animations -------------------- */
 
-
+/* Slide Down */
 @keyframes slide-down {
   0% { opacity: 0; transform: translateY(-20px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-
-.fade-in {
-  animation: fade-in 0.35s ease-out forwards;
-}
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 .animate-slide-down { animation: slide-down 0.25s ease-out forwards; }
 
+/* Fade In */
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.fade-in { animation: fade-in 0.35s ease-out forwards; }
 
+/* Scale In */
 @keyframes scale-in {
   0% { transform: scale(0.95); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
-.animate-scale-in {
-  animation: scale-in 0.25s ease-out forwards;
-}
+.animate-scale-in { animation: scale-in 0.25s ease-out forwards; }
 
-
+/* Dropdown In */
 @keyframes dropdown-in {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
+.animate-dropdown-in { animation: dropdown-in 0.25s ease-out forwards; }
 
-.animate-dropdown-in {
-  animation: dropdown-in 0.25s ease-out forwards;
-}
-
+/* Popup Bounce */
 @keyframes popup-bounce {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  0% { opacity: 0; transform: scale(0.8); }
+  60% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
 }
+.animate-popup-bounce { animation: popup-bounce 0.35s ease-out forwards; }
 
-.animate-popup-bounce {
-  animation: popup-bounce 0.35s ease-out forwards;
-}
-
-
+/* Spin Fast */
 @keyframes spin-fast {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+.animate-spin-fast { animation: spin-fast 0.8s linear infinite; }
 
-.animate-spin-fast {
-  animation: spin-fast 0.8s linear infinite;
-}
-
+/* Pulse Slow */
 @keyframes pulse-slow {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
 }
+.animate-pulse { animation: pulse-slow 1s ease-in-out infinite; }
 
-.animate-pulse {
-  animation: pulse-slow 1s ease-in-out infinite;
-}
-
+/* Shake */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-4px); }
   50% { transform: translateX(4px); }
   75% { transform: translateX(-4px); }
 }
+.animate-shake { animation: shake 0.35s ease-in-out; }
 
-.animate-shake {
-  animation: shake 0.35s ease-in-out;
-}
-
-/* Blobs */
+/* Blobs (loader) */
 .blob {
   width: 12px;
   height: 12px;
@@ -104,54 +70,25 @@
   display: inline-block;
   animation: bounce 0.6s infinite ease-in-out;
 }
-
-.blob:nth-child(2) {
-  animation-delay: 0.1s;
-}
-.blob:nth-child(3) {
-  animation-delay: 0.2s;
-}
+.blob:nth-child(2) { animation-delay: 0.1s; }
+.blob:nth-child(3) { animation-delay: 0.2s; }
 
 @keyframes bounce {
   0%, 80%, 100% { transform: translateY(0); }
   40% { transform: translateY(-12px); }
 }
 
-/* Pulse animation for text */
-@keyframes pulse-slow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-.animate-pulse {
-  animation: pulse-slow 1s ease-in-out infinite;
-}
-
-/* Shake for error */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  50% { transform: translateX(4px); }
-  75% { transform: translateX(-4px); }
-}
-.animate-shake {
-  animation: shake 0.35s ease-in-out;
-}
-
-
+/* Slide Up Fade */
 @keyframes slide-up-fade {
-  0% {
-    transform: translateY(20px) scale(0.95);
-    opacity: 0;
-  }
-  60% {
-    transform: translateY(-2px) scale(1.02);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0) scale(1);
-  }
+  0% { transform: translateY(20px) scale(0.95); opacity: 0; }
+  60% { transform: translateY(-2px) scale(1.02); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
 }
+.animate-slide-up-fade { animation: slide-up-fade 0.5s ease-out forwards; }
 
-.animate-slide-up-fade {
-  animation: slide-up-fade 0.5s ease-out forwards;
+/* -------------------- Custom Properties (Optional) -------------------- */
+@property --radialprogress {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
 }

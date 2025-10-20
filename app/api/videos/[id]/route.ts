@@ -28,14 +28,14 @@ async function authorizeAndFindVideo(videoId: string, userId?: string) {
 // ---------------- DELETE VIDEO ----------------
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id)
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const video = await authorizeAndFindVideo(params.id, session.user.id);
+    const video = await authorizeAndFindVideo(context.params.id, session.user.id);
 
     // Delete files from ImageKit (if exist)
     const deletions = [];
@@ -70,7 +70,7 @@ export async function DELETE(
 // ---------------- PATCH VIDEO ----------------
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -78,7 +78,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await req.json();
-    const video = await authorizeAndFindVideo(params.id, session.user.id);
+    const video = await authorizeAndFindVideo(context.params.id, session.user.id);
 
     // ✅ Only allow safe updates
     if (body.title !== undefined) video.title = body.title;
