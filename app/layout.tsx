@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Providers from './components/Providers';
-import { NotificationProvider } from './components/Notification';
+// import { NotificationProvider } from './components/Notification';
 import Header from './components/Header';
 
 const geistSans = Geist({
@@ -57,7 +57,7 @@ export default function RootLayout({
         transition-all duration-500 ease-in-out`}
       >
         <Providers>
-          <NotificationProvider>
+          {/* <NotificationProvider> */}
             {/* Global Header */}
             <Header />
 
@@ -82,7 +82,7 @@ export default function RootLayout({
                 {children}
               </div>
             </main>
-          </NotificationProvider>
+          {/* </NotificationProvider> */}
         </Providers>
       </body>
     </html>

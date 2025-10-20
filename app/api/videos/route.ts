@@ -20,7 +20,11 @@ export async function GET() {
       .populate<{ owner: IUser }>('owner', '_id email')
       .lean();
 
-    return NextResponse.json(videos || [], { status: 200 });
+    if (!videos || videos.length === 0) {
+      return NextResponse.json([], { status: 200 });
+    }
+
+    return NextResponse.json(videos);
   } catch (error) {
     console.error('❌ Failed to fetch videos 🎥', error);
     return NextResponse.json(

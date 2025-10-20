@@ -1,12 +1,13 @@
 'use client';
 
-import { IKVideo } from 'imagekitio-next';
+// import { IKVideo } from 'imagekitio-next';
 import Link from 'next/link';
 import { IVideo } from '@/models/Video';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useNotification } from './Notification';
 import { useSession } from 'next-auth/react';
+import { Video } from '@imagekit/next';
 
 interface VideoComponentProps {
   video: IVideo;
@@ -129,8 +130,8 @@ export default function VideoComponent({
               className="relative rounded-xl overflow-hidden shadow-md aspect-video"
               style={{ aspectRatio: '9/16' }}
             >
-              <IKVideo
-                path={video.videoUrl}
+              <Video
+                src={video.videoUrl}
                 transformation={[{ height: '1920', width: '1080' }]}
                 controls={video.controls}
                 className="w-full h-full object-cover rounded-xl"

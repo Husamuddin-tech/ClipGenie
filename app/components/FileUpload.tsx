@@ -1,12 +1,16 @@
 'use client';
 
-import { IKUpload } from 'imagekitio-next';
-import { IKUploadResponse } from 'imagekitio-next/dist/types/components/IKUpload/props';
+import {
+  upload,
+} from '@imagekit/next';
 import { useState } from 'react';
+
+// import { IKUpload } from 'imagekitio-next'; old
+// import { IKUploadResponse } from 'imagekitio-next/dist/types/components/IKUpload/props'; old
 // import { LoaderCircle } from "lucide-react";
 
 interface FileUploadProps {
-  onSuccess: (res: IKUploadResponse) => void;
+  onSuccess: (res: any) => void;
   onProgress?: (progress: number) => void;
   fileType?: 'image' | 'video';
 }
@@ -14,71 +18,65 @@ interface FileUploadProps {
 export default function FileUpload({
   onSuccess,
   onProgress,
-  fileType = 'image',
+  fileType,
 }: FileUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const onError = (err: { message: string }) => {
-    setError(err.message);
-    setUploading(false);
-  };
-
-  const handleSuccess = (response: IKUploadResponse) => {
-    setUploading(false);
-    setError(null);
-    onSuccess(response);
-  };
-
-  const handleStartUpload = () => {
-    setUploading(true);
-    setError(null);
-  };
-
-  const handleProgress = (evt: ProgressEvent) => {
-    if (evt.lengthComputable && onProgress) {
-      const percentComplete = (evt.loaded / evt.total) * 100;
-      onProgress(Math.round(percentComplete));
-    }
-  };
+  //optional validation
 
   const validateFile = (file: File) => {
     if (fileType === 'video') {
       if (!file.type.startsWith('video/')) {
-        setError('⚠️ Please upload a valid video🎥 file');
-        return false;
+        setError('Please upload a valid video file');
       }
-      if (file.size > 100 * 1024 * 1024) {
-        setError('📹 Video size must be less than 100MB 📏');
-        return false;
-      }
-    } else {
-      const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-      if (!validTypes.includes(file.type)) {
-        setError('Please upload a valid image 📸 file (JPEG, PNG, or WebP)❗');
-        return false;
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        setError('File📁 size must be less than 5MB ⚠️ ');
-        return false;
-      }
+    }
+    if (file.size > 100 * 1024 * 1024) {
+      setError('File size must be less than 100 MB');
     }
     return true;
   };
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (!file || !validateFile(file)) return;
+
+    setUploading(true);
+    setError(null);
+
+    try {
+      const authRes = await fetch('/api/auth/imagekit-auth');
+      const auth = await authRes.json();
+
+      const res = await upload({
+        file,
+        fileName: file.name,
+        publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!,
+        signature: auth.signature,
+        expire: auth.expire,
+        token: auth.token,
+        onProgress: (event) => {
+          if (event.lengthComputable && onProgress) {
+            const percent = (event.loaded / event.total) * 100;
+            onProgress(Math.round(percent));
+          }
+        },
+      });
+      onSuccess(res);
+    } catch (error) {
+      console.error('Upload failed', error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <div className="space-y-4 p-5 rounded-3xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 shadow-[0_0_20px_rgba(150,150,255,0.15)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(150,150,255,0.25)]">
-      <IKUpload
-        fileName={fileType === 'video' ? 'video' : 'image'}
-        onError={onError}
-        onSuccess={handleSuccess}
-        onUploadStart={handleStartUpload}
-        onUploadProgress={handleProgress}
+      <input
+        type="file"
         accept={fileType === 'video' ? 'video/*' : 'image/*'}
-        className="file-input file-input-bordered w-full border-2 border-transparent bg-white/80 rounded-2xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all duration-200 hover:bg-white/90 hover:shadow-[0_0_10px_rgba(255,182,193,0.4)]"
-        validateFile={validateFile}
-        useUniqueFileName={true}
-        folder={fileType === 'video' ? '/videos' : '/images'}
+        onChange={handleFileChange}
       />
 
       {/* Funky Bouncing Blobs Loader */}
