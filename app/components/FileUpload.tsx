@@ -79,20 +79,50 @@ export default function FileUpload({
   };
 
   return (
-    <div className="space-y-4 p-5 rounded-3xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 shadow-[0_0_20px_rgba(150,150,255,0.15)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(150,150,255,0.25)]">
-      <input
-        type="file"
-        accept={fileType === 'video' ? 'video/*' : 'image/*'}
-        onChange={handleFileChange}
-      />
+    <div className="w-full max-w-md mx-auto p-6 rounded-3xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 shadow-[0_0_20px_rgba(150,150,255,0.15)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_35px_rgba(150,150,255,0.25)] sm:max-w-lg md:max-w-xl">
+      {/* Upload Input */}
+      <label
+        htmlFor="file-upload"
+        className="block w-full cursor-pointer border-2 border-dashed border-purple-300 rounded-2xl py-10 text-center hover:border-purple-400 hover:bg-white/40 transition-all duration-300"
+      >
+        <input
+          id="file-upload"
+          type="file"
+          accept={fileType === 'video' ? 'video/*' : 'image/*'}
+          onChange={handleFileChange}
+          className="hidden"
+        />
+        <div className="flex flex-col items-center justify-center gap-3">
+          <svg
+            className="w-10 h-10 text-purple-400"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 15a4 4 0 014-4h1a4 4 0 014 4v5m4 0v-5a4 4 0 014-4h1a4 4 0 014 4v5m-9-7V3m0 0l-3.5 3.5M12 3l3.5 3.5"
+            />
+          </svg>
+          <p className="text-sm sm:text-base text-gray-700 font-medium">
+            Click or drag & drop your {fileType} file here
+          </p>
+          <p className="text-xs text-gray-500">
+            Supported formats:{' '}
+            {fileType === 'video' ? 'MP4, MOV, AVI' : 'JPG, PNG, WEBP'}
+          </p>
+        </div>
+      </label>
 
       {/* Funky Bouncing Blobs Loader */}
       {uploading && (
-        <div className="flex items-center justify-center gap-3 mt-2">
+        <div className="flex items-center justify-center gap-3 mt-4 sm:mt-5">
           <span className="blob bg-pink-400"></span>
           <span className="blob bg-purple-400"></span>
           <span className="blob bg-blue-400"></span>
-          <span className="text-sm text-gray-700 font-semibold animate-pulse ml-2">
+          <span className="text-sm sm:text-base text-gray-700 font-semibold animate-pulse ml-2">
             Uploading {fileType}...
           </span>
         </div>
@@ -100,7 +130,7 @@ export default function FileUpload({
 
       {/* Error Message */}
       {error && (
-        <div className="text-red-600 bg-red-50 border border-red-100 px-4 py-2 rounded-2xl text-sm shadow-[0_0_15px_rgba(255,100,100,0.1)] animate-shake">
+        <div className="mt-4 text-red-600 bg-red-50 border border-red-100 px-4 py-3 rounded-2xl text-sm sm:text-base shadow-[0_0_15px_rgba(255,100,100,0.1)] animate-shake">
           {error}
         </div>
       )}

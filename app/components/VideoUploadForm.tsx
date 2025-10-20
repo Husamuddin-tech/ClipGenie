@@ -91,14 +91,19 @@ export default function VideoUploadForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 p-6 rounded-3xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 shadow-[0_0_20px_rgba(150,150,255,0.15)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(150,150,255,0.25)]"
+      className="space-y-6 p-6 sm:p-8 md:p-10 rounded-3xl
+             bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50
+             shadow-[0_0_20px_rgba(150,150,255,0.15)]
+             backdrop-blur-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(150,150,255,0.25)]"
     >
       {/* Title */}
       <div className="flex flex-col">
-        <label className="mb-1 font-medium text-purple-700">Title</label>
+        <label className="mb-1 font-medium text-purple-700 text-sm sm:text-base">
+          Title
+        </label>
         <input
           type="text"
-          className={`px-4 py-2 rounded-2xl border-2 text-pink-400 transition-all duration-200
+          className={`px-4 py-2 rounded-2xl border-2 text-purple-700 transition-all duration-200
         focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent focus:scale-105 focus:shadow-[0_0_12px_rgba(255,182,193,0.3)]
         ${
           errors.title
@@ -108,7 +113,7 @@ export default function VideoUploadForm() {
           {...register('title', { required: 'Title is required' })}
         />
         {errors.title && (
-          <span className="text-red-600 text-sm mt-1">
+          <span className="text-red-600 text-xs sm:text-sm mt-1">
             {errors.title.message}
           </span>
         )}
@@ -116,9 +121,11 @@ export default function VideoUploadForm() {
 
       {/* Description */}
       <div className="flex flex-col">
-        <label className="mb-1 font-medium text-purple-700">Description</label>
+        <label className="mb-1 font-medium text-purple-700 text-sm sm:text-base">
+          Description
+        </label>
         <textarea
-          className={`px-4 py-2 rounded-2xl h-24 border-2 text-pink-400 transition-all duration-200
+          className={`px-4 py-2 rounded-2xl h-24 sm:h-28 md:h-32 border-2 text-purple-700 transition-all duration-200
         focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent focus:scale-105 focus:shadow-[0_0_12px_rgba(186,150,255,0.3)]
         ${
           errors.description
@@ -128,7 +135,7 @@ export default function VideoUploadForm() {
           {...register('description', { required: 'Description is required' })}
         />
         {errors.description && (
-          <span className="text-red-600 text-sm mt-1">
+          <span className="text-red-600 text-xs sm:text-sm mt-1">
             {errors.description.message}
           </span>
         )}
@@ -136,22 +143,24 @@ export default function VideoUploadForm() {
 
       {/* Tags */}
       <div className="flex flex-col">
-        <label className="mb-1 font-medium text-purple-700">
+        <label className="mb-1 font-medium text-purple-700 text-sm sm:text-base">
           Tags (comma separated)
         </label>
         <input
           type="text"
           placeholder="e.g. Music, Vlog, Tutorial"
-          className="px-4 py-2 rounded-2xl border-2 border-transparent bg-white/80 text-purple-700 transition-all duration-200
-        focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent focus:scale-105 focus:shadow-[0_0_12px_rgba(173,216,230,0.3)]
-        hover:bg-white/90"
+          className="px-4 py-2 rounded-2xl border-2 border-transparent bg-white/80 text-purple-700
+                 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent focus:scale-105 focus:shadow-[0_0_12px_rgba(173,216,230,0.3)]
+                 hover:bg-white/90 text-sm sm:text-base"
           {...register('tags')}
         />
       </div>
 
       {/* Video Upload */}
       <div className="flex flex-col">
-        <label className="mb-1 font-medium text-purple-700">Upload Video</label>
+        <label className="mb-1 font-medium text-purple-700 text-sm sm:text-base">
+          Upload Video
+        </label>
         <FileUpload
           fileType="video"
           onSuccess={handleUploadSuccess}
@@ -163,12 +172,13 @@ export default function VideoUploadForm() {
       <button
         type="submit"
         className={`w-full px-5 py-3 rounded-2xl font-semibold text-white shadow-[0_0_12px_rgba(255,182,193,0.4)]
-      transition-all duration-200 hover:shadow-[0_0_24px_rgba(255,182,193,0.6)] hover:scale-105
-      ${
-        loading || !uploadProgress
-          ? 'bg-pink-200 cursor-not-allowed'
-          : 'bg-pink-400 hover:bg-pink-500'
-      }`}
+                transition-all duration-200 hover:shadow-[0_0_24px_rgba(255,182,193,0.6)] hover:scale-105
+                text-sm sm:text-base
+                ${
+                  loading || !uploadProgress
+                    ? 'bg-pink-200 cursor-not-allowed'
+                    : 'bg-pink-400 hover:bg-pink-500'
+                }`}
         disabled={loading || !uploadProgress}
       >
         {loading ? (

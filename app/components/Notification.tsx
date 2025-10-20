@@ -37,33 +37,30 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       {children}
 
       {notification && (
-        <div className="fixed bottom-5 right-5 z-[100] flex flex-col items-end space-y-2">
+        <div className="fixed bottom-5 right-5 z-[100] flex flex-col items-end space-y-2 sm:space-y-3">
           <div
             className={`
-          flex items-center gap-2 px-6 py-4 rounded-3xl shadow-lg backdrop-blur-sm
-          text-sm font-medium text-white
-          animate-slide-up-fade
-          transition-all duration-500 transform
+          max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg
+          w-auto flex items-center gap-3 px-5 sm:px-6 py-3 sm:py-4 rounded-3xl 
+          shadow-lg backdrop-blur-md
+          text-sm sm:text-base font-medium
+          animate-slide-up-fade transition-all duration-500 transform
           ${getAlertClass(notification.type)}
         `}
             style={{ animationFillMode: 'forwards' }}
           >
             {/* Icon per type */}
-            {notification.type === 'success' && (
-              <span className="text-white">✅</span>
-            )}
-            {notification.type === 'error' && (
-              <span className="text-white">❌</span>
-            )}
-            {notification.type === 'warning' && (
-              <span className="text-white">⚠️</span>
-            )}
+            <span className="flex-shrink-0 text-lg sm:text-xl">
+              {notification.type === 'success' && '✅'}
+              {notification.type === 'error' && '❌'}
+              {notification.type === 'warning' && '⚠️'}
+              {notification.type === 'info' && 'ℹ️'}
+            </span>
 
-            {notification.type === 'info' && (
-              <span className="text-white">ℹ️</span>
-            )}
-
-            <span>{notification.message}</span>
+            {/* Message */}
+            <span className="break-words text-sm sm:text-base text-white">
+              {notification.message}
+            </span>
           </div>
         </div>
       )}

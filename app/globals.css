@@ -92,3 +92,42 @@
   inherits: true;
   initial-value: 0%;
 } */
+
+
+
+@keyframes blob-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+}
+
+.blob {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  animation: blob-bounce 1.4s infinite ease-in-out;
+}
+
+.blob:nth-child(1) {
+  animation-delay: 0s;
+}
+.blob:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.blob:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
