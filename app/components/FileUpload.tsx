@@ -7,7 +7,7 @@ import { useState } from 'react';
 // import { IKUploadResponse } from 'imagekitio-next/dist/types/components/IKUpload/props'; old
 // import { LoaderCircle } from "lucide-react";
 
-interface UploadResponse {
+export interface UploadResponse {
   url: string;
   fileName: string;
   size: number;

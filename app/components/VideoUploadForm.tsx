@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { IKUploadResponse } from 'imagekitio-next/dist/types/components/IKUpload/props';
+
 import { LoaderCircle } from 'lucide-react';
 import { useNotification } from './Notification';
 import { apiClient } from '@/lib/api-client';
-import FileUpload from './FileUpload';
+import FileUpload, { UploadResponse } from './FileUpload';
 
 interface VideoFormData {
   title: string;
@@ -36,9 +36,9 @@ export default function VideoUploadForm() {
     },
   });
 
-  const handleUploadSuccess = (response: IKUploadResponse) => {
-    setValue('videoUrl', response.filePath);
-    setValue('thumbnailUrl', response.thumbnailUrl || response.filePath);
+  const handleUploadSuccess = (response: UploadResponse) => {
+    setValue('videoUrl', response.url);
+    setValue('thumbnailUrl', response.url || response.url);
     showNotification('Video uploaded successfully!', 'success');
   };
 
