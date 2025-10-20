@@ -87,8 +87,8 @@
 .animate-slide-up-fade { animation: slide-up-fade 0.5s ease-out forwards; }
 
 /* -------------------- Custom Properties (Optional) -------------------- */
-@property --radialprogress {
+/* @property --radialprogress {
   syntax: "<percentage>";
   inherits: true;
   initial-value: 0%;
-}
+} */

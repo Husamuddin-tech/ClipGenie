@@ -8,34 +8,49 @@ import imagekit from '@/lib/imagekit';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// 🧹 Utility: Auth & Owner Check
+// ---------------- Utility: Auth & Owner Check ----------------
 async function authorizeAndFindVideo(videoId: string, userId?: string) {
   if (!videoId) throw new Error('Missing video ID');
   await connectToDatabase();
 
   const video = await Video.findById(videoId);
   if (!video) throw new Error('Video not found');
-
   if (!userId) throw new Error('Unauthorized');
 
-  if (video.owner?.toString() !== userId) {
-    throw new Error('Forbidden');
-  }
+  if (video.owner?.toString() !== userId) throw new Error('Forbidden');
 
   return video;
+}
+
+// ---------------- Helper: get ID from context ----------------
+async function getIdFromContext(
+  context: { params: { id: string } } | { params: Promise<{ id: string }> }
+): Promise<string> {
+  if ('params' in context) {
+    if (context.params instanceof Promise) {
+      const resolved = await context.params;
+      return resolved.id;
+    } else {
+      return context.params.id;
+    }
+  }
+  throw new Error('Missing params');
 }
 
 // ---------------- DELETE VIDEO ----------------
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: { id: string } } | { params: Promise<{ id: string }> }
 ) {
   try {
+    const id = await getIdFromContext(context);
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id)
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const video = await authorizeAndFindVideo(context.params.id, session.user.id);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const video = await authorizeAndFindVideo(id, session.user.id);
 
     // Delete files from ImageKit (if exist)
     const deletions = [];
@@ -51,17 +66,20 @@ export async function DELETE(
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error('DELETE error:', err);
-      if (err.message === 'Missing video ID')
-        return NextResponse.json({ error: err.message }, { status: 400 });
-      if (err.message === 'Video not found')
-        return NextResponse.json({ error: err.message }, { status: 404 });
-      if (err.message === 'Unauthorized')
-        return NextResponse.json({ error: err.message }, { status: 401 });
-      if (err.message === 'Forbidden')
-        return NextResponse.json(
-          { error: 'You do not have permission to delete this video.' },
-          { status: 403 }
-        );
+      const statusMap: Record<string, number> = {
+        'Missing video ID': 400,
+        'Video not found': 404,
+        Unauthorized: 401,
+        Forbidden: 403,
+      };
+      const message = err.message.includes('Forbidden')
+        ? 'You do not have permission to delete this video.'
+        : err.message;
+
+      return NextResponse.json(
+        { error: message },
+        { status: statusMap[err.message] || 500 }
+      );
     }
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
@@ -70,17 +88,20 @@ export async function DELETE(
 // ---------------- PATCH VIDEO ----------------
 export async function PATCH(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: { id: string } } | { params: Promise<{ id: string }> }
 ) {
   try {
+    const id = await getIdFromContext(context);
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id)
+
+    if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     const body = await req.json();
-    const video = await authorizeAndFindVideo(context.params.id, session.user.id);
+    const video = await authorizeAndFindVideo(id, session.user.id);
 
-    // ✅ Only allow safe updates
+    // Only allow safe updates
     if (body.title !== undefined) video.title = body.title;
     if (body.description !== undefined) video.description = body.description;
 
@@ -93,17 +114,20 @@ export async function PATCH(
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error('PATCH error:', err);
-      if (err.message === 'Missing video ID')
-        return NextResponse.json({ error: err.message }, { status: 400 });
-      if (err.message === 'Video not found')
-        return NextResponse.json({ error: err.message }, { status: 404 });
-      if (err.message === 'Unauthorized')
-        return NextResponse.json({ error: err.message }, { status: 401 });
-      if (err.message === 'Forbidden')
-        return NextResponse.json(
-          { error: 'You do not have permission to edit this video.' },
-          { status: 403 }
-        );
+      const statusMap: Record<string, number> = {
+        'Missing video ID': 400,
+        'Video not found': 404,
+        Unauthorized: 401,
+        Forbidden: 403,
+      };
+      const message = err.message.includes('Forbidden')
+        ? 'You do not have permission to edit this video.'
+        : err.message;
+
+      return NextResponse.json(
+        { error: message },
+        { status: statusMap[err.message] || 500 }
+      );
     }
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
