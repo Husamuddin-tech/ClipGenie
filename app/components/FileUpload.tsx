@@ -3,9 +3,6 @@
 import { upload } from '@imagekit/next';
 import { useState } from 'react';
 
-// import { IKUpload } from 'imagekitio-next'; old
-// import { IKUploadResponse } from 'imagekitio-next/dist/types/components/IKUpload/props'; old
-// import { LoaderCircle } from "lucide-react";
 
 export interface UploadResponse {
   url: string;

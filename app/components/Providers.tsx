@@ -5,25 +5,9 @@ import { ImageKitProvider } from '@imagekit/next';
 import { NotificationProvider } from './Notification';
 
 const urlEndpoint = process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!;
-// const publicKey = process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!; old
 
-// checking
-// console.log('✅ ImageKit endpoint:', process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT);
-
-// console.log(publicKey)
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  // old
-  // const authenticator = async () => {
-  //   try {
-  //     const response = await fetch('/api/imagekit-auth');
-  //     if (!response.ok) throw new Error('❌ Failed to authenticate 🔒');
-  //     return response.json();
-  //   } catch (error) {
-  //     console.error('ImageKit 🖼️ authentication 🔒 error:', error);
-  //     throw error;
-  //   }
-  // };
 
   return (
     <SessionProvider refetchInterval={5 * 60}>
