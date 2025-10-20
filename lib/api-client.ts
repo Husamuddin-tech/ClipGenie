@@ -1,8 +1,8 @@
 import { IVideo } from '@/models/Video';
 
-type FetchOptions = {
+type FetchOptions<T = unknown> = {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-  body?: any;
+  body?: T;
   headers?: Record<string, string>;
 };
 

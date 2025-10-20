@@ -39,24 +39,30 @@ export async function DELETE(
 
     // Delete files from ImageKit (if exist)
     const deletions = [];
-    if (video.videoFileId) deletions.push(imagekit.deleteFile(video.videoFileId));
-    if (video.thumbnailFileId) deletions.push(imagekit.deleteFile(video.thumbnailFileId));
+    if (video.videoFileId)
+      deletions.push(imagekit.deleteFile(video.videoFileId));
+    if (video.thumbnailFileId)
+      deletions.push(imagekit.deleteFile(video.thumbnailFileId));
     await Promise.allSettled(deletions);
 
     await video.deleteOne();
 
     return NextResponse.json({ message: '✅ Video deleted successfully' });
-  } catch (err: any) {
-    console.error('DELETE error:', err);
-    if (err.message === 'Missing video ID')
-      return NextResponse.json({ error: err.message }, { status: 400 });
-    if (err.message === 'Video not found')
-      return NextResponse.json({ error: err.message }, { status: 404 });
-    if (err.message === 'Unauthorized')
-      return NextResponse.json({ error: err.message }, { status: 401 });
-    if (err.message === 'Forbidden')
-      return NextResponse.json({ error: 'You do not have permission to delete this video.' }, { status: 403 });
-
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('DELETE error:', err);
+      if (err.message === 'Missing video ID')
+        return NextResponse.json({ error: err.message }, { status: 400 });
+      if (err.message === 'Video not found')
+        return NextResponse.json({ error: err.message }, { status: 404 });
+      if (err.message === 'Unauthorized')
+        return NextResponse.json({ error: err.message }, { status: 401 });
+      if (err.message === 'Forbidden')
+        return NextResponse.json(
+          { error: 'You do not have permission to delete this video.' },
+          { status: 403 }
+        );
+    }
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
@@ -84,25 +90,26 @@ export async function PATCH(
       message: '✅ Video updated successfully',
       video,
     });
-  } catch (err: any) {
-    console.error('PATCH error:', err);
-    if (err.message === 'Missing video ID')
-      return NextResponse.json({ error: err.message }, { status: 400 });
-    if (err.message === 'Video not found')
-      return NextResponse.json({ error: err.message }, { status: 404 });
-    if (err.message === 'Unauthorized')
-      return NextResponse.json({ error: err.message }, { status: 401 });
-    if (err.message === 'Forbidden')
-      return NextResponse.json({ error: 'You do not have permission to edit this video.' }, { status: 403 });
-
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('PATCH error:', err);
+      if (err.message === 'Missing video ID')
+        return NextResponse.json({ error: err.message }, { status: 400 });
+      if (err.message === 'Video not found')
+        return NextResponse.json({ error: err.message }, { status: 404 });
+      if (err.message === 'Unauthorized')
+        return NextResponse.json({ error: err.message }, { status: 401 });
+      if (err.message === 'Forbidden')
+        return NextResponse.json(
+          { error: 'You do not have permission to edit this video.' },
+          { status: 403 }
+        );
+    }
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
-
-
-
-// old one 
+// old one
 
 // import { authOptions } from '@/lib/auth';
 // import { connectToDatabase } from '@/lib/db';

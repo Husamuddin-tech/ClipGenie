@@ -1,16 +1,20 @@
 'use client';
 
-import {
-  upload,
-} from '@imagekit/next';
+import { upload } from '@imagekit/next';
 import { useState } from 'react';
 
 // import { IKUpload } from 'imagekitio-next'; old
 // import { IKUploadResponse } from 'imagekitio-next/dist/types/components/IKUpload/props'; old
 // import { LoaderCircle } from "lucide-react";
 
+interface UploadResponse {
+  url: string;
+  fileName: string;
+  size: number;
+  type: string;
+}
 interface FileUploadProps {
-  onSuccess: (res: any) => void;
+  onSuccess: (res: UploadResponse) => void;
   onProgress?: (progress: number) => void;
   fileType?: 'image' | 'video';
 }
@@ -63,7 +67,14 @@ export default function FileUpload({
           }
         },
       });
-      onSuccess(res);
+      // Map ImageKit's response to our UploadResponse type
+      const mappedRes: UploadResponse = {
+        url: res.url!,
+        fileName: file.name, // set from the original file
+        size: file.size, // set from the original file
+        type: file.type, // set from the original file
+      };
+      onSuccess(mappedRes);
     } catch (error) {
       console.error('Upload failed', error);
     } finally {
