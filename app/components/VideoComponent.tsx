@@ -206,13 +206,13 @@ export default function VideoComponent({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
-              className="input input-bordered w-full rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-300"
+              className="input input-bordered w-full rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-300 text-amber-100"
             />
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
-              className="textarea textarea-bordered w-full rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-300"
+              className="textarea textarea-bordered w-full rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-300 text-amber-100"
               rows={4}
             />
             <div className="flex justify-between gap-4 mt-4">
