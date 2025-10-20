@@ -43,7 +43,7 @@ export default function Home() {
     >
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Page Title */}
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-purple-700 text-center sm:text-left">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-purple-700 text-center sm:text-left drop-shadow-sm">
           ClipGenie
         </h1>
 
@@ -53,17 +53,47 @@ export default function Home() {
           will do! 🎬✨
         </p>
 
-        {/* Pro Tip Warning */}
-        <div className="max-w-3xl mx-auto sm:mx-0 flex items-center gap-2 px-4 py-2 bg-yellow-100 border-l-4 border-yellow-400 rounded-lg text-yellow-800 font-medium shadow-sm">
-          <span>⚠️</span>
-          <span>
-            Pro tip: Keep it safe—don’t post personal info or sensitive videos.
-            Stay creative, stay secure!
-          </span>
+        {/* Warnings Section */}
+        <div className="max-w-3xl mx-auto sm:mx-0 flex flex-col gap-4 mt-6">
+          {/* Pro Tip */}
+          <div
+            className="flex items-start sm:items-center gap-3 px-5 py-4 
+                  bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-400 
+                  border-l-8 border-yellow-500 rounded-xl shadow-md"
+          >
+            <span className="text-2xl animate-pulse">⚠️</span>
+            <div className="text-yellow-900 font-semibold leading-relaxed">
+              <span className="block text-lg font-extrabold uppercase tracking-wide">
+                Pro Tip
+              </span>
+              <span className="block text-sm sm:text-base font-medium">
+                Keep it safe—don’t post personal info or sensitive videos. Stay
+                creative, stay secure!
+              </span>
+            </div>
+          </div>
+          {/* Important Notice */}
+          <div
+            className="flex items-start sm:items-center gap-3 px-5 py-4 
+                  bg-gradient-to-r from-orange-100 via-orange-200 to-red-200 
+                  border-l-8 border-red-500 rounded-xl shadow-md"
+          >
+            <span className="text-2xl animate-bounce">🚧</span>
+            <div className="text-red-900 font-semibold leading-relaxed">
+              <span className="block text-lg font-extrabold uppercase tracking-wide">
+                Important Notice
+              </span>
+              <span className="block text-sm sm:text-base font-medium">
+                This website is fully optimized for desktop use. On other
+                devices, some features may not function properly or could cause
+                bugs.
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* Video Feed Card (spaced more down) */}
-        <div className="mt-6 rounded-3xl p-6 bg-white/90 shadow-[0_0_25px_rgba(150,150,255,0.2)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_0_35px_rgba(150,150,255,0.25)]">
+        {/* Video Feed Card */}
+        <div className="mt-10 rounded-3xl p-6 bg-white/90 shadow-[0_0_25px_rgba(150,150,255,0.2)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_0_35px_rgba(150,150,255,0.25)]">
           <VideoFeed
             videos={videos}
             onVideoDeleted={handleVideoDeleted}
