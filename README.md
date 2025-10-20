@@ -1,6 +1,6 @@
 # ClipGenie
 
-<!--![ClipGenie Logo](https://example.com/clipgenie-logo.png) <!-- Replace with actual image URL -->-->
+<!--![ClipGenie Logo](https://example.com/clipgenie-logo.png) <!-- Replace with actual image URL -->
 
 ClipGenie is a modern web application designed for seamless video clip management and sharing. Built with the latest technologies, it offers a user-friendly interface and robust features for content creators and enthusiasts. Whoever wants to flex their things and their videography can do so by using random emails.
 
